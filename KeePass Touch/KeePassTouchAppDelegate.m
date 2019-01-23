@@ -237,8 +237,10 @@
         } else if ([authResult isCancel]) {
             // ignore, user cancelled manually
         } else if ([authResult isError]) {
-            UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:[NSString stringWithFormat:@"Dropbox Error: %@", authResult.errorDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [errorAlert show];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil) message:[NSString stringWithFormat:@"Dropbox Error: %@", authResult.errorDescription] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            [alert addAction:ok];
+            [self.navigationController.topViewController presentViewController:alert animated:YES completion:nil];
         }
         return YES;
     }

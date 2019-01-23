@@ -61,9 +61,10 @@
 - (void)donePressed:(id)sender {
     if (self.keyTextField.text.length == 0) {
         NSString *title = NSLocalizedString(@"Name cannot be empty", nil);
-        NSString *ok = NSLocalizedString(@"OK", nil);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:ok otherButtonTitles:nil];
-        [alert show];
+        UIAlertController * alert1 = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alert1 addAction:ok];
+        [self presentViewController:alert1 animated:YES completion:nil];
         return;
     }
 

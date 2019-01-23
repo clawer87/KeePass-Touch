@@ -105,10 +105,10 @@
     FTPClient *client = [FTPClient clientWithHost:host port:port.intValue username:user password:password];
     
     [client listContentsAtPath:@"/" showHiddenFiles:NO success:^(NSArray *contents) {
-        [KeychainUtils setString:_host.text forKey:@"kptftpserver" andServiceName:@"com.kptouch.ftpaccess"];
-        [KeychainUtils setString:_port.text forKey:@"kptftpport" andServiceName:@"com.kptouch.ftpaccess"];
-        [KeychainUtils setString:_username.text forKey:@"kptftpusername" andServiceName:@"com.kptouch.ftpaccess"];
-        [KeychainUtils setString:_password.text forKey:@"kptftppassword" andServiceName:@"com.kptouch.ftpaccess"];
+        [KeychainUtils setString:self->_host.text forKey:@"kptftpserver" andServiceName:@"com.kptouch.ftpaccess"];
+        [KeychainUtils setString:self->_port.text forKey:@"kptftpport" andServiceName:@"com.kptouch.ftpaccess"];
+        [KeychainUtils setString:self->_username.text forKey:@"kptftpusername" andServiceName:@"com.kptouch.ftpaccess"];
+        [KeychainUtils setString:self->_password.text forKey:@"kptftppassword" andServiceName:@"com.kptouch.ftpaccess"];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self removeLoadingAnimation];
             

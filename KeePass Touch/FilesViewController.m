@@ -264,7 +264,7 @@ enum {
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
                                                                style:UIAlertActionStyleCancel
                                                              handler:^(UIAlertAction * _Nonnull action) {
-                                                                 [webUploader stop];
+                                                                 [self->webUploader stop];
                                                              }];
             [noWifiAlert addAction:okAction];
             [self presentViewController:noWifiAlert animated:YES completion:nil];
@@ -327,9 +327,9 @@ enum {
             NSInteger keyFileRows = [self.tableView numberOfRowsInSection:SECTION_KEYFILE];
             if( (databaseRows + keyFileRows) > 1 )
             {
-                isUploading = YES;
-                [self.view addSubview:footerLabel];
-                footerLabel.text = NSLocalizedString(@"Choose Upload File...", nil);
+                self->isUploading = YES;
+                [self.view addSubview:self->footerLabel];
+                self->footerLabel.text = NSLocalizedString(@"Choose Upload File...", nil);
             }
             else {
                 // sofort initialisieren mit Upload Database File
@@ -479,7 +479,7 @@ enum {
                                                           };
                                                           
                                                           UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:newKdbViewController];
-                                                          [appDelegate.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
+                                                          [self->appDelegate.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
                                                       }];
     [alertCon addAction:newAction];
     
@@ -489,7 +489,7 @@ enum {
                                                                
                                                                UIDocumentMenuViewController *documentMenuSelectCon = [[UIDocumentMenuViewController alloc] initWithDocumentTypes:@[@"com.kptouch.kdbx",@"com.kptouch.kdb", @"com.kptouch.key"] inMode:UIDocumentPickerModeImport];
                                                                documentMenuSelectCon.modalPresentationStyle = UIModalPresentationPopover;
-                                                               documentMenuSelectCon.popoverPresentationController.barButtonItem = addButton;
+                                                               documentMenuSelectCon.popoverPresentationController.barButtonItem = self->addButton;
                                                                documentMenuSelectCon.delegate = self;
                                                                [self presentViewController:documentMenuSelectCon animated:YES completion:nil];
                                                            }];
@@ -944,16 +944,16 @@ enum {
             NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:result.serverModified  ,NSFileModificationDate, nil];
             NSError *errorFile;
             [[NSFileManager defaultManager] setAttributes:attrs ofItemAtPath:[[KeePassTouchAppDelegate documentsDirectory] stringByAppendingPathComponent:localFileName] error: &errorFile];
-            if(_localUniques.count > 0)
-                _localUniques = [_localUniques arrayByRemovingObject:[_localUniques objectAtIndex:0]];
-            currentFile++;
+            if(self->_localUniques.count > 0)
+                self->_localUniques = [self->_localUniques arrayByRemovingObject:[self->_localUniques objectAtIndex:0]];
+            self->currentFile++;
             
             MBProgressHUD *currentHUD = [MBProgressHUD HUDForView:self.view];
-            currentHUD.label.text = [NSString stringWithFormat:@"Sync %ld / %ld",currentFile,allFiles];
+            currentHUD.label.text = [NSString stringWithFormat:@"Sync %ld / %ld",self->currentFile,self->allFiles];
             currentHUD.progress = 0.0f;
             
             // Check if process is done
-            if(_localUniques.count == 0)
+            if(self->_localUniques.count == 0)
                 [self downloadFilesFromDropbox];
             else
                 [self uploadFilesToDropbox];
@@ -992,17 +992,17 @@ enum {
             NSError *errorFile;
             [[NSFileManager defaultManager] setAttributes:attrs ofItemAtPath:[[KeePassTouchAppDelegate documentsDirectory] stringByAppendingPathComponent:fileMetadata.name] error: &errorFile];
 
-            if(_dropboxUniques.count > 0)
-                _dropboxUniques = [_dropboxUniques arrayByRemovingObject:[_dropboxUniques objectAtIndex:0]];
-            currentFile++;
+            if(self->_dropboxUniques.count > 0)
+                self->_dropboxUniques = [self->_dropboxUniques arrayByRemovingObject:[self->_dropboxUniques objectAtIndex:0]];
+            self->currentFile++;
             
             MBProgressHUD *currentHUD = [MBProgressHUD HUDForView:self.view];
-            currentHUD.label.text = [NSString stringWithFormat:@"Sync %ld / %ld",currentFile,allFiles];
+            currentHUD.label.text = [NSString stringWithFormat:@"Sync %ld / %ld",self->currentFile,self->allFiles];
             currentHUD.progress = 0.0f;
             
             
             // Check if process is done
-            if(_dropboxUniques.count == 0)
+            if(self->_dropboxUniques.count == 0)
                 [self handleCollision];
             else
                 [self downloadFilesFromDropbox];
@@ -1079,14 +1079,14 @@ enum {
         
         // Dropbox Handler
         void (^dropboxHandler)(UIAlertAction * action) = ^void(UIAlertAction *action) {
-            _dropboxUniques = [_dropboxUniques arrayByAddingObject:file];
+            self->_dropboxUniques = [self->_dropboxUniques arrayByAddingObject:file];
             self.collisionArray = [self.collisionArray arrayByRemovingObject:file];
             [self downloadFilesFromDropbox];
         };
         
         // Local Handler
         void (^localHandler)(UIAlertAction * action) = ^void(UIAlertAction *action) {
-            _localUniques = [_localUniques arrayByAddingObject:file];
+            self->_localUniques = [self->_localUniques arrayByAddingObject:file];
             self.collisionArray = [self.collisionArray arrayByRemovingObject:file];
             [self uploadFilesToDropbox];
         };
@@ -1116,8 +1116,8 @@ enum {
             [chooseVersionController addAction:olderFileAction];
             [chooseVersionController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 self.collisionArray = [self.collisionArray arrayByRemovingObject:file];
-                currentFile++;
-                if(currentFile > allFiles)
+                self->currentFile++;
+                if(self->currentFile > self->allFiles)
                 {
                     MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
                     hud.mode = MBProgressHUDModeCustomView;
@@ -1129,7 +1129,7 @@ enum {
                 else
                 {
                     MBProgressHUD *currentHUD = [MBProgressHUD HUDForView:self.view];
-                    currentHUD.label.text = [NSString stringWithFormat:@"Sync %ld / %ld",currentFile,allFiles];
+                    currentHUD.label.text = [NSString stringWithFormat:@"Sync %ld / %ld",self->currentFile,self->allFiles];
                     currentHUD.progress = 0.0f;
                 }
                 [self handleCollision];
@@ -1157,8 +1157,8 @@ enum {
             [chooseVersionController addAction:olderFileAction];
             [chooseVersionController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 self.collisionArray = [self.collisionArray arrayByRemovingObject:file];
-                currentFile++;
-                if(currentFile > allFiles)
+                self->currentFile++;
+                if(self->currentFile > self->allFiles)
                 {
                     MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
                     hud.mode = MBProgressHUDModeCustomView;
@@ -1170,7 +1170,7 @@ enum {
                 else
                 {
                     MBProgressHUD *currentHUD = [MBProgressHUD HUDForView:self.view];
-                    currentHUD.label.text = [NSString stringWithFormat:@"Sync %ld / %ld",currentFile,allFiles];
+                    currentHUD.label.text = [NSString stringWithFormat:@"Sync %ld / %ld",self->currentFile,self->allFiles];
                     currentHUD.progress = 0.0f;
                 }
                 [self handleCollision];

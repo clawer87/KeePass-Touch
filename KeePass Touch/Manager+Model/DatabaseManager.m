@@ -115,9 +115,14 @@ static DatabaseManager *sharedInstance;
                                       }
                                       else if(error.code != LAErrorUserCancel) {
                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                              UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:[error localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                              UIAlertController * errorAlert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil) message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
+                                              UIAlertAction * ok = [UIAlertAction
+                                                                    actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                                        [errorAlert dismissViewControllerAnimated:YES completion:nil];
+                                                                    }];
+                                              [errorAlert addAction:ok];
+                                              [appDelegate.window.rootViewController presentViewController:errorAlert animated:YES completion:nil];
                                               NSLog(@"Error in Touch ID %@", [error description]);
-                                              [errorView show];
                                               return;
                                               
                                           });
@@ -155,9 +160,14 @@ static DatabaseManager *sharedInstance;
                                       else
                                       {
                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                              UIAlertView *wrongID = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Unknown Touch ID", nil) message:NSLocalizedString(@"Unknown Touch ID entered. Please try again.", nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                              UIAlertController * errorAlert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Unknown Touch ID", nil) message:NSLocalizedString(@"Unknown Touch ID entered. Please try again.", nil) preferredStyle:UIAlertControllerStyleAlert];
+                                              UIAlertAction * ok = [UIAlertAction
+                                                                    actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                                        [errorAlert dismissViewControllerAnimated:YES completion:nil];
+                                                                    }];
+                                              [errorAlert addAction:ok];
+                                              [appDelegate.window.rootViewController presentViewController:errorAlert animated:YES completion:nil];
                                               NSLog(@"Wrong Touch ID");
-                                              [wrongID show];
                                           });
                                           
                                       }

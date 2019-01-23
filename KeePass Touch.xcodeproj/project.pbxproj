@@ -1059,7 +1059,6 @@
 				689DFFD213A4273F005EBD36 /* Frameworks */,
 				689DFFD313A4273F005EBD36 /* Resources */,
 				89F3ACD61FC75F37002B823D /* ShellScript */,
-				091443B182D9B228FC602DD2 /* [CP] Embed Pods Frameworks */,
 				ADB7CE2EA5AB8FB7F1156EEE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -1170,21 +1169,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		091443B182D9B228FC602DD2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KeePass Touch/Pods-KeePass Touch-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		59B47B4FB0FB7ECCAC6443C9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2011 Jason Rush and John Flanagan. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -99,7 +99,7 @@
 "No Touch ID enabled" = "No Touch ID enabled. Please enable TouchID in the Settings App.";
 "Unknown Touch ID entered. Please try again." = "Unknown Touch ID entered. Please try again.";
 "Decrypt Database" = "Decrypt Database";
-"TouchID Enabled" = "Enable TouchID";
+"TouchID Enabled" = "Enable TouchID / FaceID";
 "Unlock your database quickly with TouchID" = "Unlock your database quickly with TouchID";
 "Choose to open a default database on launch." = "Choose to open a default database on launch.";
 "Default Database" = "Default Database";

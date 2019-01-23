@@ -22,6 +22,15 @@ DEPENDENCIES:
   - ObjectiveDropboxOfficial (~> 3.3.4)
   - TWMessageBarManager
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Crashlytics
+    - Fabric
+    - GCDWebServer
+    - MBProgressHUD
+    - ObjectiveDropboxOfficial
+    - TWMessageBarManager
+
 EXTERNAL SOURCES:
   FTPKit:
     :git: https://github.com/aljlue/FTPKit.git
@@ -42,4 +51,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 20df10d13dbffe0904d8b3378affb7a41d2fdebd
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3
